@@ -2,7 +2,7 @@
   "name": "extension template",
   "version": "1.0",
   "description": "template",
-  "permissions": [],
+  "permissions": ["*://*/*"],
   "options_page": "options.html",
   "background": {
     "scripts": ["background.js"],

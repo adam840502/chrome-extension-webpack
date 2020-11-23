@@ -1,31 +1,20 @@
+import axios from 'axios';
+
 'use strict';
 
-//buttons
-let button = document.getElementById('getCategories');
-let defaultCollecting = document.getElementById('defaultCollecting');
-let highlightAudible = document.getElementById('highlightAudible');
-let tokenize = document.getElementById('tokenize');
-
-let content = document.getElementById('content')
+let button = document.getElementById('button');
+let img = document.getElementById('img');
 
 button.onclick = function () {
-  chrome.runtime.sendMessage({ name: 'buttonClicked', id: 'getCategories' }, response => {
-    // tabIds = res.tabs.map(item => { return item['id']; })
-    content.innerHTML = `${response.status}<br>${response.tabs}`
-  })
+  var base = 'http://www.google.com'
+  axios.get(base)
+    .then(response => {
+      var doc = new DOMParser().parseFromString(response.data, "text/html")
+      var contentImageUrl = doc.querySelector('meta[itemprop="image"]').getAttribute('content')
+      contentImageUrl = new URL(contentImageUrl, base).href
+
+      img.setAttribute('src', contentImageUrl)
+
+      return axios.get(contentImageUrl)
+    })
 };
-
-defaultCollecting.onclick = function () {
-  chrome.runtime.sendMessage({ name: 'buttonClicked', id: 'defaultCollecting' })
-}
-
-highlightAudible.onclick = function () {
-  chrome.runtime.sendMessage({ name: 'buttonClicked', id: 'highlightAudible' })
-}
-
-tokenize.onclick = function () {
-  chrome.runtime.sendMessage({ name: 'buttonClicked', id: 'getTokenizedWords' }, response => {
-    content.innerHTML = `${response.words}`
-  })
-}
-

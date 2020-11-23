@@ -1,3 +1,3 @@
 # Chrome Extension Webpack
 
-A simplest template for prototyping a chrome extension with webpack
+Some simple samples produced when learning to build chrome extensions with webpack
